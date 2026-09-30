@@ -27,12 +27,14 @@ Techniques I've actually used, by category. Grows every event.
 
 | Category | Techniques used | Still to learn |
 |---|---|---|
-| **Web** | DOM inspection, console logs, JWT decode, localStorage tampering, SQLi (auth bypass) | XSS, SSRF, IDOR, JWT forging (`alg:none`, weak HMAC), SSTI |
-| **Crypto** | Base64, Caesar/ROT, Vigenère, XOR, MD5 brute-force, RSA (factor small n) | Padding oracle, AES modes, RSA (Wiener, common modulus), ECC |
-| **Forensics** | Magic bytes, `strings`, hexdump reading | steganography, PCAP/Wireshark, memory (Volatility), `binwalk` |
-| **Reverse** | inverting a JS checker, XOR self-inverse | x86/ARM asm, Ghidra, gdb, packers, anti-debug |
-| **Pwn** | — | buffer overflow, ROP, format string, heap |
-| **OSINT** | (team-solved) | metadata, geolocation, infra recon |
+| **Web** | DOM inspection, console logs, JWT decode, localStorage tampering, SQLi (auth bypass), GraphQL introspection / hidden fields | XSS, SSRF, IDOR, JWT forging (`alg:none`, weak HMAC), SSTI |
+| **Crypto** | Base64, Caesar/ROT, Vigenère, XOR, MD5 brute-force, RSA (factor small n), periodic rotor keystream (known-plaintext), multivariate (UOV/Rainbow) layer-severing + MinRank oil-space | Padding oracle, AES modes, RSA (Wiener, common modulus), ECC, lattices |
+| **Forensics** | Magic bytes, `strings`, hexdump, audio spectrogram stego, WAV/ID3 metadata, ext4 deleted-file recovery (Sleuth Kit `fls`/`icat`), polyglot carving (`binwalk`), log/timeline correlation + AES-GCM key derivation | PCAP/Wireshark, memory (Volatility) |
+| **Steganography** | audio spectrogram, per-channel + bit-plane image stego (GIMP Decompose, PIL) | `zsteg`/StegSolve depth, DCT/JPEG stego, LSB matching |
+| **Reverse** | inverting a JS checker, XOR self-inverse, x86-64 asm reading (objdump), reconstructing integer physics + PRNG (xorshift32), protocol RE + solver bot, live memory editing (PINCE / `/proc/pid/mem`) | Ghidra, gdb, packers, anti-debug |
+| **Pwn** | format-string `%p` leak, off-by-one saved-RBP pivot, ret2win (No-PIE), use-after-free → function-pointer hijack | full buffer overflow, ROP, GOT overwrite, tcache/heap |
+| **AI/ML Security** | LLM prompt injection / social engineering (authority+urgency, split-confirm, roleplay) | indirect/RAG injection, jailbreak chaining, model extraction |
+| **OSINT** | git history / deleted files / unmerged branches (`git log --all -p`), social recon | metadata, geolocation, infra recon |
 
 ---
 
@@ -70,6 +72,39 @@ Challenges I personally solved are linked. Team-solved ones are noted.
 | Reverse | Keygen | 250 | keygen logic | team |
 | OSINT | Where was this taken? | 100 | image geolocation | team |
 | OSINT | Leaky repo | 150 | git secrets | team |
+
+---
+
+### CSS CTF 2026: Return of Nexus (USYD Cybersecurity Society, team CYBORK) — **full clear** 🏆
+
+Points shown are final (dynamic scoring). Challenges I personally have writeups for are linked;
+team-solved ones (no writeup) are noted.
+
+| Category | Challenge | Pts | Technique | Writeup |
+|---|---|---|---|---|
+| Welcome | Welcome to Nexus | 10 | intro | team |
+| OSINT | Dead Faction Servers | 10 | git history / deleted file + unmerged branch | [link](osint/css-ctf-2026/dead-faction-servers.md) |
+| OSINT | Server Juice | 15 | social media recon (follow account) | team |
+| OSINT | 2(-1) Senses | 59 | audio spectrogram + WAV/ID3 metadata (fill-in-blank) | [link](forensics/css-ctf-2026/2senses.md) |
+| Hardware: RE | Lamp Drill | 15 | logic-gate (AND) bit decode | [link](hardware/css-ctf-2026/lamp-drill.md) |
+| Hardware: RE | Silicon Snare | 250 | — | team |
+| Web | Welcome to Star City | 15 | source review / base64+URL decode | [link](web/css-ctf-2026/welcome-to-star-city.md) |
+| Web | Secret Supernovas | 50 | GraphQL introspection / hidden fields | [link](web/css-ctf-2026/secret-supernovas.md) |
+| Misc | A Star Trail 1 | 20 | shortest path (Dijkstra/A*), waypoint-only flag | [link](misc/css-ctf-2026/a-star-trail-1.md) |
+| Misc | A Star Trail 2 | 75 | shortest path (variant) | team |
+| AI/ML Security | After hours... | 20 | LLM prompt injection / social engineering | [link](ai-ml/css-ctf-2026/after-hours.md) |
+| Pwn | Dockside Ticket Office | 25 | use-after-free → function-pointer hijack | [link](pwn/css-ctf-2026/dockside-ticket-office.md) |
+| Pwn | Maintenance Log | 62 | format-string leak + off-by-one RBP → ret2win | [link](pwn/css-ctf-2026/maintenance-log.md) |
+| Crypto | Chrono I | 25 | time-based keystream (simpler) | team |
+| Crypto | Chrono II | 100 | periodic rotor keystream (7×11 gears), known-plaintext | [link](crypto/css-ctf-2026/chrono-ii.md) |
+| Crypto | Severed Symmetry | 247 | multivariate (UOV/Rainbow) layer-severing + oil-space + vinegar brute | [link](crypto/css-ctf-2026/severed-symmetry.md) |
+| Forensics | Echoes of the Relay | 33 | ext4 deleted-file recovery + polyglot ZIP-in-PNG | [link](forensics/css-ctf-2026/echoes-of-the-relay.md) |
+| Forensics | The False Timeline | 66 | log/timeline correlation + AES-GCM key derivation | [link](forensics/css-ctf-2026/the-false-timeline.md) |
+| Forensics | Signal Fracture | 100 | — | team |
+| Forensics | Ghost Frequency | 115 | — | team |
+| Steganography | Colour Shift | 45 | red-channel bit-plane stego (Pink Floyd) | [link](steganography/css-ctf-2026/colour-shift.md) |
+| Reverse | prince walk | 50 | live memory editing (PINCE / `/proc/pid/mem`) | [link](reverse/css-ctf-2026/prince-walk.md) |
+| Reverse | FLAPPY BOARD | 183 | RE integer physics + xorshift32, beam-search bot vs server API | [link](reverse/css-ctf-2026/flappy-board.md) |
 
 ---
 
