@@ -127,3 +127,5 @@ team-solved ones (no writeup) are noted.
 5. **CTFtime.org** — live CTFs with the team
 
 Focus categories: **Web + Crypto** first. Add **Reverse/Pwn** later.
+---
+next ctf: poctf2026 , id:"POCTF:1G7FT7UP"
